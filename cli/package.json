@@ -21,11 +21,11 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@types/node": "^20.19.43",
+    "@types/node": "^24.13.2",
     "typescript": "^6.0.3",
     "vitest": "^4.1.9"
   },
   "engines": {
-    "node": ">=20.20.2"
+    "node": ">=24.17.0"
   }
 }
