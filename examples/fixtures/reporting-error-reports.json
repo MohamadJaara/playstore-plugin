@@ -1,0 +1,47 @@
+{
+  "errorReports": [
+    {
+      "name": "apps/com.example.app/errorReports/report-1",
+      "issue": "apps/com.example.app/errorIssues/issue-top",
+      "type": "CRASH",
+      "appVersion": {
+        "versionCode": "123"
+      },
+      "osVersion": {
+        "apiLevel": "35"
+      },
+      "deviceModel": {
+        "marketingName": "Pixel 8",
+        "deviceUri": "device/google/shiba",
+        "deviceId": {
+          "buildBrand": "google",
+          "buildDevice": "shiba"
+        }
+      },
+      "eventTime": "2026-06-23T10:00:00Z",
+      "reportText": "java.lang.IllegalStateException: missing session\n    at com.example.checkout.PaymentRepository.load(PaymentRepository.kt:42)\n    at com.example.checkout.CheckoutViewModel.refresh(CheckoutViewModel.kt:88)",
+      "vcsInformation": "git:abcdef123456"
+    },
+    {
+      "name": "apps/com.example.app/errorReports/report-2",
+      "issue": "apps/com.example.app/errorIssues/issue-anr",
+      "type": "APPLICATION_NOT_RESPONDING",
+      "appVersion": {
+        "versionCode": "123"
+      },
+      "osVersion": {
+        "apiLevel": "34"
+      },
+      "deviceModel": {
+        "marketingName": "Pixel 6",
+        "deviceUri": "device/google/oriole",
+        "deviceId": {
+          "buildBrand": "google",
+          "buildDevice": "oriole"
+        }
+      },
+      "eventTime": "2026-06-22T19:30:00Z",
+      "reportText": "main tid=1 Native\n    at com.example.checkout.CheckoutActivity.onCreate(CheckoutActivity.kt:31)"
+    }
+  ]
+}

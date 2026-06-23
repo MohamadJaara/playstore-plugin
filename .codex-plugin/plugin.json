@@ -1,0 +1,32 @@
+{
+  "name": "playstore-plugin",
+  "version": "0.1.0",
+  "description": "Read-only Codex workflows and local CLI support for Google Play release health investigation.",
+  "author": {
+    "name": "Mohamad Jaara"
+  },
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "google-play",
+    "android",
+    "release-health"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Play Store",
+    "shortDescription": "Investigate Google Play release health from a read-only CLI.",
+    "longDescription": "Provides a read-only Codex plugin foundation and local TypeScript CLI for future Google Play release health, crash, ANR, and review triage workflows.",
+    "developerName": "Mohamad Jaara",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read"
+    ],
+    "defaultPrompt": [
+      "Check Play Store release health",
+      "Triage a Play crash regression",
+      "Compare Android release vitals"
+    ],
+    "brandColor": "#1A73E8"
+  }
+}

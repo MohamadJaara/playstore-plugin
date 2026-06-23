@@ -1,0 +1,31 @@
+{
+  "name": "@playstore-plugin/cli",
+  "version": "0.1.0",
+  "description": "Read-only local CLI foundation for the Play Store Codex plugin.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "playstore": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "commander": "^15.0.0",
+    "google-auth-library": "^10.7.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

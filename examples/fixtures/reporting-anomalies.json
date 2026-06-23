@@ -1,0 +1,82 @@
+{
+  "anomalies": [
+    {
+      "name": "apps/com.example.app/anomalies/anomaly-crash",
+      "metricSet": "apps/com.example.app/crashRateMetricSet",
+      "timelineSpec": {
+        "aggregationPeriod": "DAILY",
+        "startTime": {
+          "year": 2026,
+          "month": 6,
+          "day": 22,
+          "timeZone": {
+            "id": "America/Los_Angeles"
+          }
+        },
+        "endTime": {
+          "year": 2026,
+          "month": 6,
+          "day": 23,
+          "timeZone": {
+            "id": "America/Los_Angeles"
+          }
+        }
+      },
+      "dimensions": [
+        {
+          "dimension": "versionCode",
+          "int64Value": "123"
+        },
+        {
+          "dimension": "deviceModel",
+          "stringValue": "google/shiba",
+          "valueLabel": "Pixel 8"
+        }
+      ],
+      "metric": {
+        "metric": "userPerceivedCrashRate",
+        "decimalValue": {
+          "value": "0.012"
+        },
+        "decimalValueConfidenceInterval": {
+          "lowerBound": {
+            "value": "0.009"
+          },
+          "upperBound": {
+            "value": "0.016"
+          }
+        }
+      }
+    },
+    {
+      "name": "apps/com.example.app/anomalies/anomaly-anr",
+      "metricSet": "apps/com.example.app/anrRateMetricSet",
+      "timelineSpec": {
+        "aggregationPeriod": "DAILY",
+        "startTime": {
+          "year": 2026,
+          "month": 6,
+          "day": 22,
+          "timeZone": {
+            "id": "America/Los_Angeles"
+          }
+        },
+        "endTime": {
+          "year": 2026,
+          "month": 6,
+          "day": 23,
+          "timeZone": {
+            "id": "America/Los_Angeles"
+          }
+        }
+      },
+      "dimensions": [],
+      "metric": {
+        "metric": "userPerceivedAnrRate",
+        "decimalValue": {
+          "value": "0.001"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "reviews": [
+    {
+      "reviewId": "review-1",
+      "authorName": "Example Reviewer",
+      "comments": [
+        {
+          "userComment": {
+            "text": "App crashes on launch after the update. Contact me at user@example.com.",
+            "lastModified": {
+              "seconds": "1782158400",
+              "nanos": 0
+            },
+            "starRating": 1,
+            "reviewerLanguage": "en",
+            "device": "shiba",
+            "androidOsVersion": 35,
+            "appVersionCode": 123,
+            "appVersionName": "1.8.0",
+            "thumbsUpCount": 4,
+            "thumbsDownCount": 0,
+            "deviceMetadata": {
+              "productName": "Pixel 8",
+              "manufacturer": "Google",
+              "deviceClass": "FORM_FACTOR_PHONE",
+              "screenWidthPx": 1080,
+              "screenHeightPx": 2400,
+              "nativePlatform": "arm64-v8a",
+              "screenDensityDpi": 420,
+              "ramMb": 8192
+            }
+          }
+        }
+      ]
+    },
+    {
+      "reviewId": "review-2",
+      "authorName": "Sample User",
+      "comments": [
+        {
+          "userComment": {
+            "text": "The app freezes on checkout and then shows ANR.",
+            "lastModified": {
+              "seconds": "1782244800",
+              "nanos": 0
+            },
+            "starRating": 2,
+            "reviewerLanguage": "en",
+            "device": "oriole",
+            "androidOsVersion": 34,
+            "appVersionCode": "123",
+            "appVersionName": "1.8.0",
+            "thumbsUpCount": 2,
+            "thumbsDownCount": 0,
+            "deviceMetadata": {
+              "productName": "Pixel 6",
+              "manufacturer": "Google",
+              "deviceClass": "FORM_FACTOR_PHONE"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "tokenPagination": {
+    "nextPageToken": "mock-next-page"
+  }
+}

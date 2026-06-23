@@ -1,0 +1,26 @@
+{
+  "releases": [
+    {
+      "releaseName": "1.8.0 production",
+      "track": "production",
+      "activeArtifacts": [
+        {
+          "versionCode": 123
+        }
+      ],
+      "releaseLifecycleState": "inProgress",
+      "userFraction": 0.25
+    },
+    {
+      "releaseName": "1.7.9 production",
+      "track": "production",
+      "activeArtifacts": [
+        {
+          "versionCode": 122
+        }
+      ],
+      "releaseLifecycleState": "completed",
+      "userFraction": 1
+    }
+  ]
+}

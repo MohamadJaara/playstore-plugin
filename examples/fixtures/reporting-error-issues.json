@@ -1,0 +1,50 @@
+{
+  "errorIssues": [
+    {
+      "name": "apps/com.example.app/errorIssues/issue-top",
+      "type": "CRASH",
+      "cause": "java.lang.IllegalStateException",
+      "location": "com.example.checkout.PaymentRepository.load",
+      "errorReportCount": "260",
+      "distinctUsers": "120",
+      "distinctUsersPercent": {
+        "value": "0.015"
+      },
+      "firstAppVersion": {
+        "versionCode": "123"
+      },
+      "lastAppVersion": {
+        "versionCode": "123"
+      },
+      "firstOsVersion": {
+        "apiLevel": "34"
+      },
+      "lastOsVersion": {
+        "apiLevel": "35"
+      },
+      "lastErrorReportTime": "2026-06-23T10:00:00Z",
+      "sampleErrorReports": [
+        "apps/com.example.app/errorReports/report-1"
+      ],
+      "issueUri": "https://play.google.com/console/developers/example/app/com.example.app/vitals/crashes/issue-top"
+    },
+    {
+      "name": "apps/com.example.app/errorIssues/issue-anr",
+      "type": "APPLICATION_NOT_RESPONDING",
+      "cause": "Input dispatching timed out",
+      "location": "com.example.checkout.CheckoutActivity",
+      "errorReportCount": "44",
+      "distinctUsers": "30",
+      "firstAppVersion": {
+        "versionCode": "123"
+      },
+      "lastAppVersion": {
+        "versionCode": "123"
+      },
+      "lastErrorReportTime": "2026-06-22T19:30:00Z",
+      "sampleErrorReports": [
+        "apps/com.example.app/errorReports/report-2"
+      ]
+    }
+  ]
+}

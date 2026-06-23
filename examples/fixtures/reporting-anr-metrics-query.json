@@ -1,0 +1,41 @@
+{
+  "rows": [
+    {
+      "aggregationPeriod": "DAILY",
+      "startTime": {
+        "year": 2026,
+        "month": 6,
+        "day": 20,
+        "timeZone": {
+          "id": "America/Los_Angeles"
+        }
+      },
+      "dimensions": [
+        {
+          "dimension": "versionCode",
+          "int64Value": "123"
+        }
+      ],
+      "metrics": [
+        {
+          "metric": "anrRate",
+          "decimalValue": {
+            "value": "0.004"
+          }
+        },
+        {
+          "metric": "userPerceivedAnrRate",
+          "decimalValue": {
+            "value": "0.001"
+          }
+        },
+        {
+          "metric": "distinctUsers",
+          "decimalValue": {
+            "value": "800"
+          }
+        }
+      ]
+    }
+  ]
+}
