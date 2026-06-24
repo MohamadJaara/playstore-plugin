@@ -15,6 +15,7 @@ import { reportsListOutputSchema, type ErrorReportSummary, type ReportsListOutpu
 import type { PlayErrorReport } from "../schemas/playApiTypes.js";
 import { dateRangeDays, parsePositiveInteger, PLAY_VITALS_TIME_ZONE, type DateRange } from "../utils/dateRanges.js";
 import { PlaystoreCliError } from "../utils/errors.js";
+import { escapeMarkdownTableCell } from "../utils/markdown.js";
 import { printJson, printMarkdown } from "../utils/output.js";
 
 interface ReportsListOptions {
@@ -312,10 +313,6 @@ function formatDevice(report: ErrorReportSummary): string {
   const deviceId = [report.device.brand, report.device.device].filter(Boolean).join("/");
 
   return deviceId || "_unknown_";
-}
-
-function escapeMarkdownTableCell(value: string): string {
-  return value.replace(/\|/g, "\\|");
 }
 
 function addDays(date: string, days: number): string {

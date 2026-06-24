@@ -12,6 +12,7 @@ import {
 import { rolloutRiskReportOutputSchema, type RolloutRiskReportOutput } from "../schemas/cliOutputs.js";
 import { addDays, dateRangeDays, parsePositiveInteger, type DateRange } from "../utils/dateRanges.js";
 import { PlaystoreCliError } from "../utils/errors.js";
+import { escapeMarkdownTableCell } from "../utils/markdown.js";
 import { printJson, printMarkdown } from "../utils/output.js";
 import { listAnomalies } from "./anomalies.js";
 import { getReleaseHealth } from "./health.js";
@@ -383,8 +384,4 @@ function titleCase(value: string): string {
 
 function dedupe<TValue>(values: TValue[]): TValue[] {
   return [...new Set(values)];
-}
-
-function escapeMarkdownTableCell(value: string): string {
-  return value.replace(/\|/g, "\\|");
 }

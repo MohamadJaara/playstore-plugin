@@ -22,6 +22,7 @@ import {
   type DateRange
 } from "../utils/dateRanges.js";
 import { PlaystoreCliError } from "../utils/errors.js";
+import { escapeMarkdownTableCell } from "../utils/markdown.js";
 import { printJson, printMarkdown } from "../utils/output.js";
 
 interface IssuesListOptions {
@@ -324,10 +325,6 @@ function formatNumber(value: number): string {
 
 function formatSignedNumber(value: number): string {
   return value > 0 ? `+${formatNumber(value)}` : formatNumber(value);
-}
-
-function escapeMarkdownTableCell(value: string): string {
-  return value.replace(/\|/g, "\\|");
 }
 
 function addDays(date: string, days: number): string {

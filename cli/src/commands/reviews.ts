@@ -20,6 +20,7 @@ import { reviewsRecentOutputSchema, type ReviewSummary, type ReviewsRecentOutput
 import type { PlayReview } from "../schemas/playApiTypes.js";
 import { addDays, dateRangeDays, parsePositiveInteger } from "../utils/dateRanges.js";
 import { PlaystoreCliError } from "../utils/errors.js";
+import { escapeMarkdownTableCell } from "../utils/markdown.js";
 import { printJson, printMarkdown } from "../utils/output.js";
 
 interface ReviewsRecentOptions {
@@ -406,8 +407,4 @@ function splitCsv(value: string): string[] {
 
 function dedupe<TValue>(values: TValue[]): TValue[] {
   return [...new Set(values)];
-}
-
-function escapeMarkdownTableCell(value: string): string {
-  return value.replace(/\|/g, "\\|");
 }

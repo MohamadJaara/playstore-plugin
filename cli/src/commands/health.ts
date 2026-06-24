@@ -22,6 +22,7 @@ import {
 } from "../schemas/cliInputs.js";
 import { releaseHealthOutputSchema, type ReleaseHealthOutput } from "../schemas/cliOutputs.js";
 import { PlaystoreCliError } from "../utils/errors.js";
+import { escapeMarkdownTableCell } from "../utils/markdown.js";
 import { printJson, printMarkdown } from "../utils/output.js";
 
 interface HealthReleaseOptions {
@@ -351,8 +352,4 @@ function formatDimensions(dimensions: Record<string, string>): string {
 
 function titleCase(value: string): string {
   return `${value.slice(0, 1).toUpperCase()}${value.slice(1)}`;
-}
-
-function escapeMarkdownTableCell(value: string): string {
-  return value.replace(/\|/g, "\\|");
 }

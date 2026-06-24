@@ -7,6 +7,7 @@ import { triageStacktraceInputSchema, type TriageStacktraceInput } from "../sche
 import type { StackTraceTriageFrame, StackTraceTriageSuspectFile, TriageStacktraceOutput } from "../schemas/cliOutputs.js";
 import { parsePositiveInteger } from "../utils/dateRanges.js";
 import { PlaystoreCliError } from "../utils/errors.js";
+import { escapeMarkdownTableCell } from "../utils/markdown.js";
 import { printJson, printMarkdown } from "../utils/output.js";
 
 interface TriageStacktraceOptions {
@@ -194,8 +195,4 @@ function formatCandidate(candidate: StackTraceTriageFrame["candidates"][number])
 
 function shortHash(hash: string): string {
   return hash.slice(0, 12);
-}
-
-function escapeMarkdownTableCell(value: string): string {
-  return value.replace(/\|/g, "\\|");
 }

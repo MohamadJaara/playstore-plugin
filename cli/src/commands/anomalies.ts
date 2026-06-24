@@ -14,6 +14,7 @@ import { anomaliesListOutputSchema, type AnomaliesListOutput, type AnomalySignal
 import type { PlayAnomaly, PlayDimensionValue, PlayMetricDateTime, PlayMetricValue } from "../schemas/playApiTypes.js";
 import { addDays, dateRangeDays, parsePositiveInteger, PLAY_VITALS_TIME_ZONE, type DateRange } from "../utils/dateRanges.js";
 import { PlaystoreCliError } from "../utils/errors.js";
+import { escapeMarkdownTableCell } from "../utils/markdown.js";
 import { printJson, printMarkdown } from "../utils/output.js";
 
 interface AnomaliesListOptions {
@@ -406,10 +407,6 @@ function formatDimensions(dimensions: Record<string, string>, labels: Record<str
 
 function formatNumber(value: number | null): string {
   return value === null ? "_missing_" : new Intl.NumberFormat("en-US", { maximumFractionDigits: 6 }).format(value);
-}
-
-function escapeMarkdownTableCell(value: string): string {
-  return value.replace(/\|/g, "\\|");
 }
 
 function dateOnlyToZonedStartRfc3339(date: string, timeZone = ANOMALY_FILTER_TIME_ZONE): string {

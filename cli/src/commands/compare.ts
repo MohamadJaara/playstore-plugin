@@ -31,6 +31,7 @@ import {
 import type { PlayErrorIssue } from "../schemas/playApiTypes.js";
 import { addDays, dateRangeDays, parsePositiveInteger, PLAY_VITALS_TIME_ZONE, previousDateRange, type DateRange } from "../utils/dateRanges.js";
 import { PlaystoreCliError } from "../utils/errors.js";
+import { escapeMarkdownTableCell } from "../utils/markdown.js";
 import { printJson, printMarkdown } from "../utils/output.js";
 
 interface CompareReleasesOptions {
@@ -743,8 +744,4 @@ function dedupeIssues(issues: PlayErrorIssue[]): PlayErrorIssue[] {
 
 function titleCase(value: string): string {
   return `${value.slice(0, 1).toUpperCase()}${value.slice(1)}`;
-}
-
-function escapeMarkdownTableCell(value: string): string {
-  return value.replace(/\|/g, "\\|");
 }
