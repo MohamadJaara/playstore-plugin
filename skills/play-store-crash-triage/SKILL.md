@@ -14,6 +14,7 @@ This plugin is read-only. The CLI can inspect Play Console data and local files,
 ## Command Reference
 
 Run from the plugin repository root. Use `scripts/playstore doctor --format json` first when setup is uncertain.
+Credentials and package allowlist can live in plugin-root `.env`; shell variables override `.env` for one-off runs.
 
 ```bash
 scripts/playstore issues list --package com.example.app --version-code 123 --start-date 2026-06-01 --end-date 2026-06-08 --type all --state all --limit 20 --format json

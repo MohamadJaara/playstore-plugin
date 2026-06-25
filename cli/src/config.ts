@@ -1,7 +1,11 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { z } from "zod";
 
 import { PlaystoreCliError } from "./utils/errors.js";
+
+const DOTENV_FILE_NAME = ".env";
 
 const envSchema = z.object({
   GOOGLE_APPLICATION_CREDENTIALS: z.string().trim().optional(),
@@ -36,7 +40,7 @@ export interface ConfigStatus {
   };
 }
 
-export function loadPlaystoreConfig(env: NodeJS.ProcessEnv = process.env): PlaystoreConfig {
+export function loadPlaystoreConfig(env: NodeJS.ProcessEnv = loadPlaystoreEnv()): PlaystoreConfig {
   const parsed = envSchema.safeParse(env);
 
   if (!parsed.success) {
@@ -55,7 +59,7 @@ export function loadPlaystoreConfig(env: NodeJS.ProcessEnv = process.env): Plays
   return config;
 }
 
-export function inspectPlaystoreConfig(env: NodeJS.ProcessEnv = process.env): ConfigStatus {
+export function inspectPlaystoreConfig(env: NodeJS.ProcessEnv = loadPlaystoreEnv()): ConfigStatus {
   const config = parseConfig(envSchema.parse(env));
   const credentials = inspectCredentials(config);
   const packageAllowlist = inspectPackageAllowlist(config);
@@ -66,6 +70,13 @@ export function inspectPlaystoreConfig(env: NodeJS.ProcessEnv = process.env): Co
     packageAllowlist,
     defaultPackage
   };
+}
+
+export function loadPlaystoreEnv(
+  env: NodeJS.ProcessEnv = process.env,
+  envFilePath = defaultEnvFilePath()
+): NodeJS.ProcessEnv {
+  return mergeEnv(readDotenvFile(envFilePath), env);
 }
 
 export function assertPackageAllowed(packageName: string, config: PlaystoreConfig): void {
@@ -196,4 +207,134 @@ function parseBoolean(value: string | undefined): boolean {
 
 function emptyToUndefined(value: string | undefined): string | undefined {
   return value && value.length > 0 ? value : undefined;
+}
+
+function readDotenvFile(path: string): NodeJS.ProcessEnv {
+  if (!existsSync(path)) {
+    return {};
+  }
+
+  try {
+    return parseDotenv(readFileSync(path, "utf8"), path);
+  } catch (error) {
+    if (error instanceof PlaystoreCliError) {
+      throw error;
+    }
+
+    throw new PlaystoreCliError(
+      "INVALID_DOTENV",
+      `${DOTENV_FILE_NAME} configuration could not be read.`,
+      `Check ${path} permissions and syntax.`
+    );
+  }
+}
+
+function parseDotenv(content: string, path: string): NodeJS.ProcessEnv {
+  const values: NodeJS.ProcessEnv = {};
+
+  content.split(/\r?\n/).forEach((line, index) => {
+    const trimmed = line.trim();
+
+    if (!trimmed || trimmed.startsWith("#")) {
+      return;
+    }
+
+    const assignment = trimmed.startsWith("export ") ? trimmed.slice("export ".length).trimStart() : line;
+    const equalsIndex = assignment.indexOf("=");
+
+    if (equalsIndex === -1) {
+      throw invalidDotenvLine(path, index + 1);
+    }
+
+    const key = assignment.slice(0, equalsIndex).trim();
+
+    if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(key)) {
+      throw invalidDotenvLine(path, index + 1);
+    }
+
+    values[key] = parseDotenvValue(assignment.slice(equalsIndex + 1), path, index + 1);
+  });
+
+  return values;
+}
+
+function parseDotenvValue(value: string, path: string, lineNumber: number): string {
+  const trimmed = value.trim();
+
+  if (trimmed.length === 0) {
+    return "";
+  }
+
+  const quote = trimmed[0];
+
+  if (quote === "'" || quote === '"') {
+    const closingIndex = findClosingQuote(trimmed, quote);
+
+    if (closingIndex === -1) {
+      throw invalidDotenvLine(path, lineNumber);
+    }
+
+    const quoted = trimmed.slice(1, closingIndex);
+    return quote === '"' ? unescapeDoubleQuotedValue(quoted) : quoted;
+  }
+
+  return stripInlineComment(trimmed).trimEnd();
+}
+
+function findClosingQuote(value: string, quote: string): number {
+  for (let index = 1; index < value.length; index += 1) {
+    if (value[index] === quote && (quote === "'" || value[index - 1] !== "\\")) {
+      return index;
+    }
+  }
+
+  return -1;
+}
+
+function unescapeDoubleQuotedValue(value: string): string {
+  return value.replace(/\\([nrt"\\])/g, (_match, escaped: string) => {
+    switch (escaped) {
+      case "n":
+        return "\n";
+      case "r":
+        return "\r";
+      case "t":
+        return "\t";
+      default:
+        return escaped;
+    }
+  });
+}
+
+function stripInlineComment(value: string): string {
+  const commentIndex = value.search(/\s#/);
+  return commentIndex === -1 ? value : value.slice(0, commentIndex);
+}
+
+function mergeEnv(dotenvEnv: NodeJS.ProcessEnv, env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
+  const merged: NodeJS.ProcessEnv = { ...dotenvEnv };
+
+  Object.entries(env).forEach(([key, value]) => {
+    if (value !== undefined) {
+      merged[key] = value;
+    }
+  });
+
+  return merged;
+}
+
+function defaultEnvFilePath(): string {
+  return resolve(pluginRoot(), DOTENV_FILE_NAME);
+}
+
+function pluginRoot(): string {
+  return resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
+}
+
+function invalidDotenvLine(path: string, lineNumber: number): PlaystoreCliError {
+  return new PlaystoreCliError(
+    "INVALID_DOTENV",
+    `${DOTENV_FILE_NAME} contains an invalid assignment on line ${lineNumber}.`,
+    `Use KEY=value syntax in ${path}.`
+  );
 }

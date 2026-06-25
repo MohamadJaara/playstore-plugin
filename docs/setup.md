@@ -34,6 +34,8 @@ scripts/playstore doctor --format markdown
 
 ## Configure Credentials
 
+The CLI reads `.env` from the plugin root automatically. Values already present in the shell take precedence, so temporary command-line overrides still work.
+
 Set exactly one credential path for normal use.
 
 Use a service-account file:
@@ -61,6 +63,15 @@ export PLAYSTORE_DEFAULT_PACKAGE="com.example.app"
 ```
 
 `PLAYSTORE_DEFAULT_PACKAGE` must also appear in `PLAYSTORE_PACKAGE_ALLOWLIST`.
+
+The same configuration can live in a plugin-root `.env`:
+
+```dotenv
+GOOGLE_APPLICATION_CREDENTIALS=/absolute/path/to/service-account.json
+# GOOGLE_AUTH_USE_ADC=true
+PLAYSTORE_PACKAGE_ALLOWLIST=com.example.app,com.example.beta
+PLAYSTORE_DEFAULT_PACKAGE=com.example.app
+```
 
 ## Install In Codex
 

@@ -15,6 +15,7 @@ The CLI is read-only. It may fetch Play Console data, but it must not pause, pro
 
 - Run from the plugin repository root so `scripts/playstore` resolves correctly.
 - Start with `scripts/playstore doctor --format json` when setup is uncertain. `doctor` performs local checks only and does not contact Google APIs.
+- Credentials and package allowlist can live in plugin-root `.env`; shell variables override `.env` for one-off runs.
 - Use `scripts/playstore apps list --format json` to inspect the configured `PLAYSTORE_PACKAGE_ALLOWLIST` when the package is missing or ambiguous.
 - Use absolute dates. `--end-date` is exclusive, and Play vitals output uses the `America/Los_Angeles` reporting timezone.
 - Keep fetched Play data out of commits and persistent logs unless the user explicitly asks for an artifact.

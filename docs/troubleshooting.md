@@ -37,7 +37,7 @@ Symptom:
 MISSING_CREDENTIALS
 ```
 
-Fix by setting one credential source:
+Fix by setting one credential source in plugin-root `.env` or in the shell:
 
 ```bash
 export GOOGLE_APPLICATION_CREDENTIALS="/absolute/path/to/service-account.json"
@@ -59,7 +59,7 @@ Symptom:
 MISSING_PACKAGE_ALLOWLIST
 ```
 
-Fix:
+Fix by setting the allowlist in plugin-root `.env` or in the shell:
 
 ```bash
 export PLAYSTORE_PACKAGE_ALLOWLIST="com.example.app"

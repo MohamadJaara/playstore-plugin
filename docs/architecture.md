@@ -40,7 +40,7 @@ All Google API calls are inspection calls. The plugin does not implement rollout
 
 ## Data Boundary
 
-- Environment variables configure credentials and allowed package names.
+- Environment variables or plugin-root `.env` configure credentials and allowed package names.
 - Credentials and tokens are never printed.
 - Review text is redacted by default.
 - Fetched API data, raw reports, stack traces, and local scratch files are not committed.

@@ -2,9 +2,9 @@
 
 Read-only Codex workflows and a local TypeScript CLI for investigating Google Play release health, crash and ANR issues, review signals, rollout risk, and local stack traces.
 
-The plugin intentionally uses repo-local skills plus `scripts/playstore` instead of an MCP server. That keeps every workflow easy to run in a terminal, test in CI, inspect in code review, and reuse outside Codex.
+Use it through the bundled Codex skills or directly from the terminal with `scripts/playstore`. It never pauses rollouts, promotes releases, edits tracks, responds to reviews, or performs any other Play Console mutation.
 
-## What It Can Do
+## Capabilities
 
 - Validate local setup without contacting Google APIs.
 - Discover allowlisted apps and releases.
@@ -15,8 +15,6 @@ The plugin intentionally uses repo-local skills plus `scripts/playstore` instead
 - Correlate low-rating review signals while redacting review text by default.
 - Generate a read-only rollout-risk decision aid.
 - Map stack traces to a local Android source tree.
-
-The plugin does not pause rollouts, promote releases, edit tracks, respond to reviews, or perform any Play Console mutation.
 
 ## Repository Layout
 
@@ -54,6 +52,8 @@ scripts/playstore doctor --format markdown
 
 ## Configure Play Access
 
+The CLI automatically reads `.env` from the plugin root, then overlays any variables already set in the shell. Use `.env.example` as the template for local values, or keep exporting variables in your terminal for one-off overrides.
+
 Choose one credential source:
 
 ```bash
@@ -75,6 +75,15 @@ export PLAYSTORE_DEFAULT_PACKAGE="com.example.app"
 
 `PLAYSTORE_DEFAULT_PACKAGE` is optional, but when set it must also appear in `PLAYSTORE_PACKAGE_ALLOWLIST`.
 
+Equivalent plugin-root `.env` example:
+
+```dotenv
+GOOGLE_APPLICATION_CREDENTIALS=/absolute/path/to/service-account.json
+# GOOGLE_AUTH_USE_ADC=true
+PLAYSTORE_PACKAGE_ALLOWLIST=com.example.app,com.example.beta
+PLAYSTORE_DEFAULT_PACKAGE=com.example.app
+```
+
 ## Common Commands
 
 Use absolute date windows. `--end-date` is exclusive.
@@ -95,20 +104,20 @@ scripts/playstore triage stacktrace --file crash.txt --source-root /path/to/andr
 
 `doctor` and `triage stacktrace` are local-only. The other commands are read-only Google API clients.
 
-## Codex Plugin Installation
+## Codex Installation
 
-The plugin can be installed from a local Codex marketplace entry that points at this plugin source. The installed Codex CLI does not expose a `codex plugin validate` subcommand, so manifest validation uses the bundled plugin-creator validator documented in [docs/validation.md](docs/validation.md).
+Install the plugin from a local Codex marketplace entry that points at this checkout.
 
 For routine local development:
 
 1. Keep this checkout as the plugin source referenced by your local marketplace.
 2. Run `npm run build` and `npm test` from `cli/`.
 3. Run `scripts/playstore doctor --format json`.
-4. Run plugin validation.
+4. Run the validation commands in [docs/validation.md](docs/validation.md).
 5. Reinstall the plugin from the configured marketplace with `codex plugin add playstore-plugin@<marketplace-name>`.
 6. Start a new Codex thread so updated skills and metadata are loaded.
 
-See [docs/setup.md](docs/setup.md) for a full install path and [docs/troubleshooting.md](docs/troubleshooting.md) for common failures.
+See [docs/setup.md](docs/setup.md) for the full install path and [docs/troubleshooting.md](docs/troubleshooting.md) for common failures.
 
 ## Example Prompts And Fixtures
 
@@ -117,46 +126,7 @@ See [docs/setup.md](docs/setup.md) for a full install path and [docs/troubleshoo
 
 ## Architecture
 
-```mermaid
-flowchart TD
-  User[Codex user or terminal user] --> Skills[Codex skills]
-  User --> Wrapper[scripts/playstore]
-  Skills --> Wrapper
-  Wrapper --> CLI[TypeScript CLI]
-  CLI --> Config[Environment config and package allowlist]
-  CLI --> Auth[Google auth helper]
-  Auth --> Publisher[Android Publisher API read-only endpoints]
-  Auth --> Reporting[Play Developer Reporting API]
-  CLI --> LocalSource[Local Android source tree]
-  Publisher --> Reports[JSON or Markdown output]
-  Reporting --> Reports
-  LocalSource --> Reports
-  Reports --> User
-```
-
-See [docs/architecture.md](docs/architecture.md) for the final architecture notes and read-only boundaries.
-
-## Validation
-
-Use the full validation suite before publishing or review:
-
-```bash
-cd cli
-npm run build
-npm test
-cd ..
-scripts/playstore doctor --format json
-python3 scripts/validate-plugin-manifest.py
-python3 "${CODEX_HOME:-$HOME/.codex}/skills/.system/plugin-creator/scripts/validate_plugin.py" .
-```
-
-More detail is in [docs/validation.md](docs/validation.md).
-
-## GitHub Automation
-
-The repository includes GitHub Actions for CLI build/typecheck/test, local doctor checks, plugin manifest validation, dependency review, npm audit, CodeQL, zizmor workflow security analysis, and scheduled Renovate dependency updates.
-
-Renovate runs from `.github/workflows/renovate.yml` and requires a `RENOVATE_TOKEN` repository secret. Give that token repository access plus `workflow` scope so Renovate can update GitHub Actions workflow files as well as npm dependencies.
+See [docs/architecture.md](docs/architecture.md) for component notes, data boundaries, and read-only guarantees.
 
 ## License
 

@@ -9,6 +9,8 @@ API commands use Google credentials from one of these sources:
 - `GOOGLE_APPLICATION_CREDENTIALS`, pointing to a service-account JSON file.
 - Application-default credentials when `GOOGLE_AUTH_USE_ADC=true`.
 
+These values may be set in the shell or in plugin-root `.env`. Shell variables override `.env` values.
+
 The auth helper configures scopes for Google Play Developer Reporting data and Android Publisher data used by read-only commands. Command code must still avoid write or mutation endpoints.
 
 ## Package Restrictions
@@ -31,6 +33,7 @@ These commands do not contact Google APIs:
 ## Secret And Data Handling
 
 - Do not commit credentials.
+- Do not commit `.env`; use `.env.example` for non-secret placeholders.
 - Do not commit fetched Play API responses, raw reports, review text, or stack traces unless the user explicitly asks for a sanitized fixture.
 - Do not log credential file contents, access tokens, refresh tokens, or service-account file paths.
 - `playstore doctor` may report whether credentials appear configured, but it must not print secret values.
